@@ -1,14 +1,28 @@
 const { Schema, model, models } = require("mongoose");
 
-const userSchema = new Schema(
+const favSchema = new Schema(
   {
-    titleList: {
+    titleFav: {
       required: true,
       type: String,
     },
-    fav: {
+    description: {
+      type: String,
       required: true,
-      type: Array,
+    },
+    link: {
+      required: true,
+      type: String,
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    listId: {
+      type: Schema.Types.ObjectId,
+      ref: "List",
+      required: true,
     },
   },
   {
@@ -16,6 +30,6 @@ const userSchema = new Schema(
   }
 );
 
-const User = model("User", userSchema);
+const Fav = model("Fav", favSchema);
 
-module.exports = User;
+module.exports = Fav;
