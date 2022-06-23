@@ -59,7 +59,7 @@ module.exports = {
 
       const listDeleted = await List.deleteOne({ _id: listId });
 
-      res.status(200).json({ message: "video Deleted", listDeleted });
+      res.status(200).json({ message: "List Deleted", listDeleted });
     } catch (error) {
       res.status(502).json(error);
     }
