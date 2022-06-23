@@ -4,8 +4,8 @@
   "description": "backend for project api favs",
   "main": "server.js",
   "scripts": {
-    "test": "cross-env MONGO_URI=mongodb://localhost:27017/assesment-test jest --detectOpenHandles",
     "start": "node server.js",
+    "test": "cross-env MONGO_URI=mongodb://localhost:27017/assesment-test jest --detectOpenHandles",
     "dev": "nodemon server.js"
   },
   "dependencies": {
