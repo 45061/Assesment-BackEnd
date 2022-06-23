@@ -20,7 +20,6 @@ module.exports = {
   async create(req, res) {
     try {
       const userId = req.user;
-      console.log(req.user);
       const user = await User.findById(userId);
       if (!user) {
         res.status(404).json({ message: "User not found" });

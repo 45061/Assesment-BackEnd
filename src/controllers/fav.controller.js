@@ -25,7 +25,6 @@ module.exports = {
         listId,
         ...req.body,
       });
-      console.log(req.body);
 
       list.fav.push(favId);
       await list.save({ validateBeforeSave: false });
