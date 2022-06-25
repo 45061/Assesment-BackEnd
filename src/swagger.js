@@ -71,7 +71,36 @@ module.exports = {
     "/list/{:listId}": {
       get: {
         tags: ["List"],
-        summary: "Recupera todos la Lista de la BD",
+        summary: "Recupera la Lista de la BD",
+        produces: ["application/json"],
+        parameters: [
+          {
+            name: "Authentication",
+            in: "header",
+            description: "Token de autorización.",
+            required: true,
+            schema: {
+              type: "string",
+              example:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOWI2NWQ1YjZkMGFmYmU0YWU1YzhjZSIsImlhdCI6MTY1NDM1MTMxNywiZXhwIjoxNjU0NDM3NzE3fQ.pG0El3BK-m3AZcKH77H9rT7pQ4F5HnQa7uvGhSWuFJY",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Lists found",
+            schema: {
+              type: "object",
+              example: "message: Lists found",
+            },
+          },
+        },
+      },
+    },
+    "/list/lists": {
+      get: {
+        tags: ["List"],
+        summary: "Recupera todas la Lista de la BD",
         produces: ["application/json"],
         parameters: [
           {
@@ -102,6 +131,45 @@ module.exports = {
             schema: {
               type: "object",
               example: "message: List found",
+            },
+          },
+        },
+      },
+    },
+    "/list/delete/{:listId}": {
+      delete: {
+        tags: ["List"],
+        summary: "Elimina la Lista de la BD",
+        produces: ["application/json"],
+        parameters: [
+          {
+            name: "Authentication",
+            in: "header",
+            description: "Token de autorización.",
+            required: true,
+            schema: {
+              type: "string",
+              example:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOWI2NWQ1YjZkMGFmYmU0YWU1YzhjZSIsImlhdCI6MTY1NDM1MTMxNywiZXhwIjoxNjU0NDM3NzE3fQ.pG0El3BK-m3AZcKH77H9rT7pQ4F5HnQa7uvGhSWuFJY",
+            },
+          },
+          {
+            name: "listId",
+            in: "path",
+            description: "Identificador de la Lista.",
+            required: true,
+            schema: {
+              type: "string",
+              example: "62b396dc5947fa740f417d01",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "List Deleted",
+            schema: {
+              type: "object",
+              example: "message: List Deleted",
             },
           },
         },
@@ -221,7 +289,7 @@ module.exports = {
         }, // .end get
       }, // .end get
     },
-    "/list/{listId}/new-fav": {
+    "/list/fav/{listId}/new-fav": {
       post: {
         tags: ["Fav"],
         summary: "Ingresa los datos para registrar el usuario en la BD",
@@ -259,7 +327,7 @@ module.exports = {
         },
       },
     },
-    "/list/{listId}/remove-fav": {
+    "/list/fav/{listId}/remove-fav": {
       delete: {
         tags: ["Fav"],
         summary:

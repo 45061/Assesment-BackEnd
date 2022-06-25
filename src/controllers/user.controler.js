@@ -15,7 +15,12 @@ module.exports = {
   async signup(req, res) {
     try {
       const { password, confirmPassword } = req.body;
-      if (password !== confirmPassword) {
+      if (
+        password !== confirmPassword ||
+        !password.match(
+          /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/
+        )
+      ) {
         res.status(403).json({ message: "Passwords do not match" });
         return;
       }
@@ -34,10 +39,7 @@ module.exports = {
       res.status(201).json({
         message: "User created",
         token,
-        user: {
-          name: user.userName,
-          email: user.email,
-        },
+        user,
       });
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -66,21 +68,10 @@ module.exports = {
         message: "User login",
         token,
         user: {
-          name: user.userName,
+          name: user.username,
           email: user.email,
         },
       });
-    } catch (error) {
-      res.status(502).json(error);
-    }
-  },
-
-  async destroy(req, res) {
-    try {
-      const userId = req.user;
-
-      await User.findByIdAndDelete(userId);
-      res.status(200).json({ message: "User deleted" });
     } catch (error) {
       res.status(502).json(error);
     }

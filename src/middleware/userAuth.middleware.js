@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/user.model");
 
 exports.isAuthenticated = (req, res, next) => {
   try {
@@ -17,6 +18,11 @@ exports.isAuthenticated = (req, res, next) => {
     const { id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
     req.user = id;
+    const existingUser = User.findById(req.user);
+
+    if (!existingUser) {
+      throw new Error("Usuario no encontrado");
+    }
 
     next();
   } catch (err) {

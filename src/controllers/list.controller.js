@@ -1,10 +1,26 @@
 const User = require("../models/user.model");
 const List = require("../models/list.model");
+const Fav = require("../models/fav.model");
 
 module.exports = {
+  async list(req, res) {
+    try {
+      const lists = await List.find().populate({
+        path: "fav",
+        select: "titleFav description link",
+      });
+      res.status(200).json({ message: "Lists found", data: lists });
+    } catch (error) {
+      res.status(502).json(error);
+    }
+  },
+
   async show(req, res) {
     try {
       const { listId } = req.params;
+      if (!listId) {
+        res.status(400).json({ message: "List not found" });
+      }
       const list = await List.findById(listId)
         .populate("userId", "userName email")
         .populate({
@@ -30,9 +46,7 @@ module.exports = {
 
       res.status(201).json({
         message: "List created",
-        list: {
-          titleList: list.titleList,
-        },
+        list,
       });
     } catch (err) {
       res.status(502).json(err);
@@ -43,8 +57,7 @@ module.exports = {
     try {
       const { listId } = req.params;
       const userId = req.user;
-
-      const list = await Video.findById(listId);
+      const list = await List.findById(listId);
 
       if (!list) {
         res.status(404).json({ message: "List no found." });
@@ -57,7 +70,6 @@ module.exports = {
       }
 
       const listDeleted = await List.deleteOne({ _id: listId });
-
       res.status(200).json({ message: "List Deleted", listDeleted });
     } catch (error) {
       res.status(502).json(error);

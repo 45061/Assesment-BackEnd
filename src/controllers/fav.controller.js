@@ -20,20 +20,18 @@ module.exports = {
         return;
       }
 
-      const favId = await Fav.create({
+      const fav = await Fav.create({
         userId,
         listId,
         ...req.body,
       });
 
-      list.fav.push(favId);
+      list.fav.push(fav);
       await list.save({ validateBeforeSave: false });
 
       res.status(201).json({
         message: "Fav created",
-        fav: {
-          titleFav: favId.titleFav,
-        },
+        fav,
       });
     } catch (error) {
       res.status(502).json(error);
@@ -44,7 +42,7 @@ module.exports = {
     try {
       const favId = req.params;
 
-      await User.findByIdAndDelete(favId);
+      await Fav.findByIdAndDelete(favId);
       res.status(200).json({ message: "Fav deleted" });
     } catch (error) {
       res.status(502).json(error);

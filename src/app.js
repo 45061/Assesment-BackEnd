@@ -16,7 +16,7 @@ app.use(cors());
 
 app.use("/users", userRouter);
 app.use("/list", listRouter);
-app.use("/list", favRouter);
+app.use("/list/fav", favRouter);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
